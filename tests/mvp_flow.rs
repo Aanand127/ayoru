@@ -1,4 +1,4 @@
-use ani::app::{PlayerRuntime, ProviderRuntime, run_with};
+use ani::app::{PickerRuntime, PlayerRuntime, ProviderRuntime, run_with};
 use ani::core::models::{Episode, StreamCandidate, Title};
 use ani::errors::AppError;
 use ani::player::detect::{DetectError, Player};
@@ -76,9 +76,36 @@ impl PlayerRuntime for NoPlayerRuntime {
     }
 }
 
+struct ScriptedPicker {
+    title_idx: usize,
+    episode_idx: usize,
+    cancel: bool,
+}
+
+impl PickerRuntime for ScriptedPicker {
+    fn pick_title(&self, _titles: &[Title]) -> Result<usize, AppError> {
+        if self.cancel {
+            return Err(AppError::Cancelled);
+        }
+        Ok(self.title_idx)
+    }
+
+    fn pick_episode(&self, _episodes: &[Episode]) -> Result<usize, AppError> {
+        if self.cancel {
+            return Err(AppError::Cancelled);
+        }
+        Ok(self.episode_idx)
+    }
+}
+
 #[tokio::test]
 async fn exits_cleanly_on_no_results() {
-    let err = run_with("frieren", &NoResultsProvider, &NoPlayerRuntime)
+    let picker = ScriptedPicker {
+        title_idx: 0,
+        episode_idx: 0,
+        cancel: false,
+    };
+    let err = run_with("frieren", &NoResultsProvider, &NoPlayerRuntime, &picker)
         .await
         .unwrap_err();
     assert!(matches!(err, AppError::NoResults(_)));
@@ -86,8 +113,26 @@ async fn exits_cleanly_on_no_results() {
 
 #[tokio::test]
 async fn exits_with_install_guidance_when_no_player_found() {
-    let err = run_with("frieren", &GoodProvider, &NoPlayerRuntime)
+    let picker = ScriptedPicker {
+        title_idx: 0,
+        episode_idx: 0,
+        cancel: false,
+    };
+    let err = run_with("frieren", &GoodProvider, &NoPlayerRuntime, &picker)
         .await
         .unwrap_err();
     assert!(matches!(err, AppError::NoSupportedPlayer(_)));
+}
+
+#[tokio::test]
+async fn exits_when_selection_cancelled() {
+    let picker = ScriptedPicker {
+        title_idx: 0,
+        episode_idx: 0,
+        cancel: true,
+    };
+    let err = run_with("frieren", &GoodProvider, &NoPlayerRuntime, &picker)
+        .await
+        .unwrap_err();
+    assert!(matches!(err, AppError::Cancelled));
 }

@@ -11,8 +11,9 @@ async fn main() {
     let query = args.query.join(" ");
     let provider = ani::provider::allanime::AllAnimeProvider::new();
     let runtime = ani::app::SystemPlayerRuntime;
+    let picker = ani::cli::interactive::InteractivePickerRuntime;
 
-    if let Err(err) = ani::app::run_with(&query, &provider, &runtime).await {
+    if let Err(err) = ani::app::run_with(&query, &provider, &runtime, &picker).await {
         eprintln!("{err}");
         std::process::exit(1);
     }

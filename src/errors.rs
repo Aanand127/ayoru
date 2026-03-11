@@ -4,6 +4,7 @@ use std::fmt::{Display, Formatter};
 pub enum AppError {
     NoQuery,
     NoResults(String),
+    Cancelled,
     Provider(String),
     NoSupportedPlayer(String),
     NoPlayableStreams,
@@ -15,6 +16,7 @@ impl Display for AppError {
         match self {
             AppError::NoQuery => write!(f, "Query is required"),
             AppError::NoResults(q) => write!(f, "No results found for \"{}\"", q),
+            AppError::Cancelled => write!(f, "Selection cancelled"),
             AppError::Provider(e) => write!(f, "Provider error: {e}"),
             AppError::NoSupportedPlayer(e) => write!(f, "{e}"),
             AppError::NoPlayableStreams => write!(f, "No playable streams found"),

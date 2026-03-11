@@ -30,6 +30,11 @@ pub trait PlayerRuntime {
     ) -> Result<(), std::io::Error>;
 }
 
+pub trait PickerRuntime {
+    fn pick_title(&self, titles: &[Title]) -> Result<usize, AppError>;
+    fn pick_episode(&self, episodes: &[Episode]) -> Result<usize, AppError>;
+}
+
 pub struct SystemPlayerRuntime;
 
 #[async_trait::async_trait]
@@ -50,10 +55,16 @@ impl PlayerRuntime for SystemPlayerRuntime {
     }
 }
 
-pub async fn run_with<P, R>(query: &str, provider: &P, runtime: &R) -> Result<(), AppError>
+pub async fn run_with<P, R, K>(
+    query: &str,
+    provider: &P,
+    runtime: &R,
+    picker: &K,
+) -> Result<(), AppError>
 where
     P: ProviderRuntime + Sync,
     R: PlayerRuntime + Sync,
+    K: PickerRuntime + Sync,
 {
     if query.trim().is_empty() {
         return Err(AppError::NoQuery);
@@ -64,16 +75,21 @@ where
         return Err(AppError::NoResults(query.to_string()));
     }
 
-    // MVP temporary default until terminal picker UI is wired to runtime event loop.
-    let title = &titles[0];
+    let title_idx = picker.pick_title(&titles)?;
+    let title = titles
+        .get(title_idx)
+        .ok_or_else(|| AppError::Provider("Invalid title selection".to_string()))?;
+
     let mut episodes = provider
         .episodes(&title.id)
         .await
         .map_err(AppError::Provider)?;
     episodes.sort_by_key(|e| e.number);
+
+    let episode_idx = picker.pick_episode(&episodes)?;
     let episode = episodes
-        .first()
-        .ok_or_else(|| AppError::Provider("No episodes available".to_string()))?;
+        .get(episode_idx)
+        .ok_or_else(|| AppError::Provider("Invalid episode selection".to_string()))?;
 
     let mut streams = provider
         .streams(&title.id, episode.number, true)
