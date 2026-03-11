@@ -33,6 +33,10 @@ where
         [command] if command == "tui" => Ok(Args {
             command: Command::Tui,
         }),
+        [command, ..] if command == "tui" => Err(clap::Error::raw(
+            clap::error::ErrorKind::TooManyValues,
+            "ani tui does not accept additional arguments",
+        )),
         query => Ok(Args {
             command: Command::Play {
                 query: query.to_vec(),

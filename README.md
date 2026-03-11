@@ -6,11 +6,13 @@ Playback-first anime CLI MVP.
 
 ```bash
 cargo run -- "frieren"
+cargo run -- tui
 ```
 
 ## Implemented MVP behaviors
 
 - `ani <query>` command surface with `clap`
+- `ani tui` standalone search-first TUI entrypoint
 - Layered modules (`cli`, `core`, `provider`, `player`, `app`)
 - Stream ranking policy: reliability (`wixmp`, `youtube`, `sharepoint`, `hianime`) -> sub preference -> resolution
 - Playback timeout/fallback engine: 6-second timeout, one attempt per provider
@@ -21,6 +23,8 @@ cargo run -- "frieren"
 ## Current limitation
 
 Live AllAnime HTTP fetch/stream resolution is scaffolded but not yet wired in `AllAnimeProvider`; running with a real query currently exits with a provider wiring error.
+
+The TUI reuses the same provider/playback stack, so it currently shares that limitation.
 
 ## Test and lint
 

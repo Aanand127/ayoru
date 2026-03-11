@@ -19,3 +19,9 @@ fn parses_query_mode_unchanged() {
         other => panic!("expected play command, got {other:?}"),
     }
 }
+
+#[test]
+fn rejects_extra_args_after_tui_subcommand() {
+    let err = ani::args::parse_from(["ani", "tui", "frieren"]);
+    assert!(err.is_err());
+}

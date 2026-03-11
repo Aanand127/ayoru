@@ -3,8 +3,10 @@ use ani::tui::state::{Mode, TuiState};
 
 #[test]
 fn submit_search_sets_loading_state() {
-    let mut state = TuiState::default();
-    state.query = "frieren".into();
+    let mut state = TuiState {
+        query: "frieren".into(),
+        ..Default::default()
+    };
 
     let effect = state.apply(Action::SubmitSearch);
 
