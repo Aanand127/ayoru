@@ -36,41 +36,50 @@ The brand should avoid communicating:
 
 ### Overall Mood
 
-Night, restraint, and confidence.
+Dark premium, restraint, and confidence.
 
 Think:
 
-- late train window reflections
-- dim city glow
+- soft media surfaces
+- cool-neutral depth
 - quiet navigation
-- minimal interfaces with a little cinematic weight
+- cinematic calm with subtle atmosphere
+- Apple TV-like polish adapted for anime
 
 Not:
 
-- cyberpunk purple overload
+- cyberpunk saturation
 - anime expo poster energy
 - retro hacker green-on-black
+- heavy blue branding blocks
 - mascot-led branding
 
 ### Color Palette
 
-**Primary colors**
+**Base**
 
-- Ink Navy: `#0B1020`
-- Midnight Blue: `#141C33`
-- Moon Silver: `#D7DCE6`
-- Mist Gray: `#98A2B3`
+- Graphite: `#16181C`
+- Soft Charcoal: `#1D2127`
+- Smoke: `#262C34`
 
-**Accent options**
+**Text**
 
-- Pale Amber: `#D8B36A`
-- Quiet Teal: `#7FB7B4`
+- Warm Silver: `#E7E8EA`
+- Muted Silver: `#B8BEC7`
+- Quiet Gray: `#8B93A1`
+
+**Atmosphere**
+
+- Steel Blue: `#5E748F`
+- Mist Blue: `#8EA3BA`
 
 **Usage**
 
-- Dark surfaces should feel blue-black, not true black.
-- Accent color should be rare and deliberate.
-- Most of the system should rely on contrast, spacing, and typography rather than bright color.
+- Surfaces should read neutral first, color second.
+- Blue should feel atmospheric rather than like a dominant brand accent.
+- Most of the system should rely on spacing, hierarchy, and depth rather than overt color.
+- Borders should be low-contrast and slightly luminous.
+- “Glass” should be subtle and lifted, not everywhere.
 
 ## Typography Direction
 
@@ -174,10 +183,11 @@ The TUI should feel understated, not busy.
 
 ### Direction
 
-- clean borders
+- soft borders
 - quiet status copy
-- restrained highlight color
+- cool-neutral highlights
 - strong spacing
+- implied depth rather than literal glass
 - no rainbow accents
 - no terminal gimmicks
 
@@ -185,7 +195,7 @@ The TUI should feel understated, not busy.
 
 ```text
 AYORU
-quiet anime playback
+A quieter way to watch anime.
 ```
 
 ### Status tone examples
@@ -198,23 +208,33 @@ quiet anime playback
 
 Avoid jokey or overly clever terminal copy.
 
+### Translation Rule
+
+Because the TUI cannot do blur or real material:
+
+- use softer contrast instead of loud accent color
+- imply glass through depth and separation, not frosted effects
+- let typography and spacing carry the premium feeling
+- keep the interface denser and calmer than a typical terminal app
+
 ## macOS App Direction
 
 The upcoming native app should extend the same identity rather than reinvent it.
 
 ### App icon direction
 
-- dark base
-- subtle crescent or horizon geometry
-- one restrained accent
+- dark neutral base
+- subtle horizon or media-panel geometry
+- one cool atmospheric accent only
 - readable at small sizes
 
 ### Window styling direction
 
-- dark, soft surfaces
+- dark soft surfaces
 - strong typography hierarchy
 - minimal chrome
-- one accent for focused states only
+- translucent layers where they improve depth
+- one cool focus accent only
 
 ## Voice Guide
 
@@ -254,7 +274,7 @@ Lock the public-facing identity to:
 - **Name:** Ayoru
 - **Tagline:** A quieter way to watch anime.
 - **Description:** A cleaner, safer way to watch anime with less friction.
-- **Brand direction:** quiet trust
+- **Brand direction:** dark premium quiet trust
 
 ## Approval Questions
 

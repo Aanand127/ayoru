@@ -7,11 +7,14 @@ use ratatui::style::{Color, Modifier, Style};
 use ratatui::text::{Line, Span};
 use ratatui::widgets::{Block, Borders, Paragraph, Widget};
 
-const INK_NAVY: Color = Color::Rgb(11, 16, 32);
-const MIDNIGHT_BLUE: Color = Color::Rgb(20, 28, 51);
-const MOON_SILVER: Color = Color::Rgb(215, 220, 230);
-const MIST_GRAY: Color = Color::Rgb(152, 162, 179);
-const PALE_AMBER: Color = Color::Rgb(216, 179, 106);
+const GRAPHITE: Color = Color::Rgb(22, 24, 28);
+const SOFT_CHARCOAL: Color = Color::Rgb(29, 33, 39);
+const SMOKE: Color = Color::Rgb(38, 44, 52);
+const WARM_SILVER: Color = Color::Rgb(231, 232, 234);
+const MUTED_SILVER: Color = Color::Rgb(184, 190, 199);
+const QUIET_GRAY: Color = Color::Rgb(139, 147, 161);
+const STEEL_BLUE: Color = Color::Rgb(94, 116, 143);
+const MIST_BLUE: Color = Color::Rgb(142, 163, 186);
 
 pub fn render_to_buffer(state: &TuiState, width: u16, height: u16) -> Buffer {
     let area = Rect::new(0, 0, width, height);
@@ -25,15 +28,15 @@ pub fn render(state: &TuiState, area: Rect, buffer: &mut Buffer) {
     Paragraph::new(view.header)
         .block(styled_block(""))
         .alignment(Alignment::Left)
-        .style(Style::default().fg(MOON_SILVER).bg(INK_NAVY))
+        .style(Style::default().fg(WARM_SILVER).bg(GRAPHITE))
         .render(view.sections[0], buffer);
     Paragraph::new(view.body)
         .block(styled_block(&view.body_title))
-        .style(Style::default().fg(MOON_SILVER).bg(MIDNIGHT_BLUE))
+        .style(Style::default().fg(WARM_SILVER).bg(SOFT_CHARCOAL))
         .render(view.sections[1], buffer);
     Paragraph::new(view.footer)
         .block(styled_block("Status"))
-        .style(Style::default().fg(MIST_GRAY).bg(INK_NAVY))
+        .style(Style::default().fg(QUIET_GRAY).bg(GRAPHITE))
         .render(view.sections[2], buffer);
 }
 
@@ -43,19 +46,19 @@ pub fn draw(frame: &mut Frame<'_>, state: &TuiState) {
     frame.render_widget(
         Paragraph::new(view.header)
             .block(styled_block(""))
-            .style(Style::default().fg(MOON_SILVER).bg(INK_NAVY)),
+            .style(Style::default().fg(WARM_SILVER).bg(GRAPHITE)),
         view.sections[0],
     );
     frame.render_widget(
         Paragraph::new(view.body)
             .block(styled_block(&view.body_title))
-            .style(Style::default().fg(MOON_SILVER).bg(MIDNIGHT_BLUE)),
+            .style(Style::default().fg(WARM_SILVER).bg(SOFT_CHARCOAL)),
         view.sections[1],
     );
     frame.render_widget(
         Paragraph::new(view.footer)
             .block(styled_block("Status"))
-            .style(Style::default().fg(MIST_GRAY).bg(INK_NAVY)),
+            .style(Style::default().fg(QUIET_GRAY).bg(GRAPHITE)),
         view.sections[2],
     );
 }
@@ -66,13 +69,13 @@ fn search_lines(state: &TuiState) -> Vec<Line<'static>> {
             Line::from(Span::styled(
                 "Search, choose, watch.",
                 Style::default()
-                    .fg(MOON_SILVER)
+                    .fg(WARM_SILVER)
                     .add_modifier(Modifier::BOLD),
             )),
             Line::from(""),
             Line::from(Span::styled(
                 "Type a title, then press Enter",
-                Style::default().fg(MIST_GRAY),
+                Style::default().fg(QUIET_GRAY),
             )),
         ];
     }
@@ -86,19 +89,19 @@ fn search_lines(state: &TuiState) -> Vec<Line<'static>> {
                 Line::from(vec![
                     Span::styled(
                         "> ",
-                        Style::default().fg(PALE_AMBER).add_modifier(Modifier::BOLD),
+                        Style::default().fg(STEEL_BLUE).add_modifier(Modifier::BOLD),
                     ),
                     Span::styled(
                         title.name.clone(),
                         Style::default()
-                            .fg(MOON_SILVER)
+                            .fg(WARM_SILVER)
                             .add_modifier(Modifier::BOLD),
                     ),
                 ])
             } else {
                 Line::from(Span::styled(
                     format!("  {}", title.name),
-                    Style::default().fg(MIST_GRAY),
+                    Style::default().fg(QUIET_GRAY),
                 ))
             }
         })
@@ -120,19 +123,19 @@ fn episode_lines(state: &TuiState) -> Vec<Line<'static>> {
                 Line::from(vec![
                     Span::styled(
                         "> ",
-                        Style::default().fg(PALE_AMBER).add_modifier(Modifier::BOLD),
+                        Style::default().fg(STEEL_BLUE).add_modifier(Modifier::BOLD),
                     ),
                     Span::styled(
                         label,
                         Style::default()
-                            .fg(MOON_SILVER)
+                            .fg(WARM_SILVER)
                             .add_modifier(Modifier::BOLD),
                     ),
                 ])
             } else {
                 Line::from(Span::styled(
                     format!("  {label}"),
-                    Style::default().fg(MIST_GRAY),
+                    Style::default().fg(QUIET_GRAY),
                 ))
             }
         })
@@ -177,15 +180,17 @@ fn build_view(state: &TuiState, area: Rect) -> View {
         header: vec![
             Line::from(Span::styled(
                 "AYORU",
-                Style::default().fg(PALE_AMBER).add_modifier(Modifier::BOLD),
+                Style::default()
+                    .fg(WARM_SILVER)
+                    .add_modifier(Modifier::BOLD),
             )),
             Line::from(Span::styled(
                 "A quieter way to watch anime.",
-                Style::default().fg(MOON_SILVER),
+                Style::default().fg(MUTED_SILVER),
             )),
             Line::from(Span::styled(
                 format!("{title}  Query: {}", state.query),
-                Style::default().fg(MIST_GRAY),
+                Style::default().fg(QUIET_GRAY),
             )),
         ],
         body_title: title.to_string(),
@@ -198,15 +203,15 @@ fn build_view(state: &TuiState, area: Rect) -> View {
 fn styled_block(title: &str) -> Block<'static> {
     let block = Block::default()
         .borders(Borders::ALL)
-        .border_style(Style::default().fg(MIST_GRAY).bg(INK_NAVY))
-        .style(Style::default().bg(INK_NAVY));
+        .border_style(Style::default().fg(MIST_BLUE).bg(SMOKE))
+        .style(Style::default().bg(SMOKE));
 
     if title.is_empty() {
         block
     } else {
         block.title(Span::styled(
             title.to_string(),
-            Style::default().fg(MIST_GRAY),
+            Style::default().fg(QUIET_GRAY),
         ))
     }
 }

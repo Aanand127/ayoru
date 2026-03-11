@@ -1,6 +1,7 @@
 use ani::core::models::Title;
 use ani::tui::state::{Mode, TuiState};
 use ani::tui::ui::render_to_buffer;
+use ratatui::style::Color;
 
 fn buffer_contains(buffer: &ratatui::buffer::Buffer, needle: &str) -> bool {
     let content = buffer
@@ -9,6 +10,14 @@ fn buffer_contains(buffer: &ratatui::buffer::Buffer, needle: &str) -> bool {
         .map(|cell| cell.symbol())
         .collect::<String>();
     content.contains(needle)
+}
+
+fn first_fg_for_symbol(buffer: &ratatui::buffer::Buffer, needle: &str) -> Option<Color> {
+    buffer
+        .content
+        .iter()
+        .find(|cell| cell.symbol() == needle)
+        .map(|cell| cell.fg)
 }
 
 #[test]
@@ -43,6 +52,14 @@ fn render_search_screen_shows_query_results_and_key_hints() {
     assert!(buffer_contains(&buffer, "Frieren"));
     assert!(buffer_contains(&buffer, "Enter"));
     assert!(buffer_contains(&buffer, "Ready"));
+    assert_eq!(
+        first_fg_for_symbol(&buffer, "A"),
+        Some(Color::Rgb(231, 232, 234))
+    );
+    assert_eq!(
+        first_fg_for_symbol(&buffer, ">"),
+        Some(Color::Rgb(94, 116, 143))
+    );
 }
 
 #[test]
