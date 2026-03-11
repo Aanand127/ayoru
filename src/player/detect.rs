@@ -26,7 +26,11 @@ impl Display for DetectError {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         match self {
             DetectError::NoSupportedPlayer { supported } => {
-                write!(f, "No supported player found. Install one of: {}", supported.join(", "))
+                write!(
+                    f,
+                    "No supported player found. Install one of: {}",
+                    supported.join(", ")
+                )
             }
         }
     }

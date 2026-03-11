@@ -1,5 +1,5 @@
 use ani::core::models::StreamCandidate;
-use ani::core::playback::{attempt_with_fallback, PlaybackError};
+use ani::core::playback::{PlaybackError, attempt_with_fallback};
 use std::time::Duration;
 
 #[tokio::test]
@@ -24,9 +24,24 @@ async fn fails_candidate_if_playback_not_started_within_6s() {
 #[tokio::test]
 async fn tries_each_provider_once_then_fails() {
     let streams = vec![
-        StreamCandidate { provider: "wixmp".into(), url: "u1".into(), is_sub: true, resolution: None },
-        StreamCandidate { provider: "wixmp".into(), url: "u2".into(), is_sub: true, resolution: None },
-        StreamCandidate { provider: "youtube".into(), url: "u3".into(), is_sub: true, resolution: None },
+        StreamCandidate {
+            provider: "wixmp".into(),
+            url: "u1".into(),
+            is_sub: true,
+            resolution: None,
+        },
+        StreamCandidate {
+            provider: "wixmp".into(),
+            url: "u2".into(),
+            is_sub: true,
+            resolution: None,
+        },
+        StreamCandidate {
+            provider: "youtube".into(),
+            url: "u3".into(),
+            is_sub: true,
+            resolution: None,
+        },
     ];
 
     let mut seen = Vec::new();

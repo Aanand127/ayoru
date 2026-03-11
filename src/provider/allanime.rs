@@ -1,5 +1,5 @@
-use crate::core::models::{Episode, StreamCandidate, Title};
 use crate::app::ProviderRuntime;
+use crate::core::models::{Episode, StreamCandidate, Title};
 use serde_json::Value;
 
 pub const ALLANIME_REFERER: &str = "https://allmanga.to";
@@ -60,14 +60,20 @@ pub fn parse_episodes(raw: &str) -> Result<Vec<Episode>, String> {
     Ok(out)
 }
 
-pub fn parse_stream_candidates(raw: &str, prefer_sub: bool) -> Result<Vec<StreamCandidate>, String> {
+pub fn parse_stream_candidates(
+    raw: &str,
+    prefer_sub: bool,
+) -> Result<Vec<StreamCandidate>, String> {
     let v: Value = serde_json::from_str(raw).map_err(|e| e.to_string())?;
     let sources = v["sources"].as_array().ok_or("missing sources")?;
 
     let mut out = Vec::new();
     for s in sources {
         let name = s["sourceName"].as_str().ok_or("missing sourceName")?;
-        let url = s["sourceUrl"].as_str().ok_or("missing sourceUrl")?.to_string();
+        let url = s["sourceUrl"]
+            .as_str()
+            .ok_or("missing sourceUrl")?
+            .to_string();
         let provider = match name {
             "Default" => "wixmp",
             "Yt-mp4" => "youtube",

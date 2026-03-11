@@ -12,7 +12,10 @@ fn parses_search_results_from_fixture() {
 fn parses_episode_list_and_sorts_ascending() {
     let raw = std::fs::read_to_string("tests/fixtures/episodes.json").unwrap();
     let episodes = parse_episodes(&raw).unwrap();
-    assert_eq!(episodes.iter().map(|e| e.number).collect::<Vec<_>>(), vec![1, 2, 3]);
+    assert_eq!(
+        episodes.iter().map(|e| e.number).collect::<Vec<_>>(),
+        vec![1, 2, 3]
+    );
 }
 
 #[test]

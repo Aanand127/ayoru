@@ -1,8 +1,8 @@
 use crate::core::models::{Episode, StreamCandidate, Title};
-use crate::core::playback::{attempt_with_fallback, PlaybackError};
+use crate::core::playback::{PlaybackError, attempt_with_fallback};
 use crate::core::stream_ranker::rank_streams;
 use crate::errors::AppError;
-use crate::player::detect::{detect_player, DetectError, Player};
+use crate::player::detect::{DetectError, Player, detect_player};
 use crate::player::launch::spawn_player;
 use std::time::Duration;
 
