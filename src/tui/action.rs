@@ -12,7 +12,10 @@ pub enum Action {
     Back,
     SearchCompleted(Vec<Title>),
     SearchFailed(String),
-    EpisodesCompleted { title: Title, episodes: Vec<Episode> },
+    EpisodesCompleted {
+        title: Title,
+        episodes: Vec<Episode>,
+    },
     EpisodesFailed(String),
     PlaybackStarted,
     PlaybackFailed(String),

@@ -61,8 +61,9 @@ where
                     .await
                     .map_err(AppError::Provider)?;
                 if streams.is_empty() {
-                    self.state
-                        .apply(Action::PlaybackFailed("No playable streams found".to_string()));
+                    self.state.apply(Action::PlaybackFailed(
+                        "No playable streams found".to_string(),
+                    ));
                     return Ok(());
                 }
 
@@ -79,10 +80,8 @@ where
                 let title_name = title.name.clone();
                 let episode_number = episode.number;
                 let player_runtime = &self.player;
-                let playback_result = attempt_with_fallback(
-                    &streams,
-                    Duration::from_secs(6),
-                    |stream| {
+                let playback_result =
+                    attempt_with_fallback(&streams, Duration::from_secs(6), |stream| {
                         let url = stream.url.clone();
                         let title_name = title_name.clone();
                         async move {
@@ -90,9 +89,8 @@ where
                                 .launch_and_confirm(player, &url, &title_name, episode_number)
                                 .await
                         }
-                    },
-                )
-                .await;
+                    })
+                    .await;
 
                 match playback_result {
                     Ok(()) => {

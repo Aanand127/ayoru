@@ -1,9 +1,9 @@
 use crate::tui::state::{Mode, TuiState};
+use ratatui::Frame;
 use ratatui::buffer::Buffer;
 use ratatui::layout::{Constraint, Layout, Rect};
 use ratatui::style::{Modifier, Style};
 use ratatui::text::{Line, Span};
-use ratatui::Frame;
 use ratatui::widgets::{Block, Borders, Paragraph, Widget};
 
 pub fn render_to_buffer(state: &TuiState, width: u16, height: u16) -> Buffer {

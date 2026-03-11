@@ -65,7 +65,9 @@ where
 
 pub async fn run() -> Result<(), AppError> {
     if !std::io::stdin().is_terminal() || !stdout().is_terminal() {
-        return Err(AppError::Provider("TUI requires a TTY terminal".to_string()));
+        return Err(AppError::Provider(
+            "TUI requires a TTY terminal".to_string(),
+        ));
     }
 
     let mut session = CrosstermTerminalSession;
@@ -107,17 +109,11 @@ impl TerminalSession for CrosstermTerminalSession {
     }
 
     fn enter_alt_screen(&mut self) -> std::io::Result<()> {
-        crossterm::execute!(
-            std::io::stdout(),
-            crossterm::terminal::EnterAlternateScreen
-        )
+        crossterm::execute!(std::io::stdout(), crossterm::terminal::EnterAlternateScreen)
     }
 
     fn leave_alt_screen(&mut self) -> std::io::Result<()> {
-        crossterm::execute!(
-            std::io::stdout(),
-            crossterm::terminal::LeaveAlternateScreen
-        )
+        crossterm::execute!(std::io::stdout(), crossterm::terminal::LeaveAlternateScreen)
     }
 }
 

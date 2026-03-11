@@ -4,7 +4,10 @@ use crossterm::event::KeyCode;
 
 #[test]
 fn slash_and_text_input_focus_search_and_append_query() {
-    assert_eq!(map_key_code(KeyCode::Char('/')), Some(InputCommand::FocusSearch));
+    assert_eq!(
+        map_key_code(KeyCode::Char('/')),
+        Some(InputCommand::FocusSearch)
+    );
     assert_eq!(
         map_key_code(KeyCode::Char('f')),
         Some(InputCommand::Action(Action::InsertChar('f')))

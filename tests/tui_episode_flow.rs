@@ -17,7 +17,11 @@ impl ProviderRuntime for EpisodeProvider {
     }
 
     async fn episodes(&self, _title_id: &str) -> Result<Vec<Episode>, String> {
-        Ok(vec![Episode { number: 1 }, Episode { number: 2 }, Episode { number: 3 }])
+        Ok(vec![
+            Episode { number: 1 },
+            Episode { number: 2 },
+            Episode { number: 3 },
+        ])
     }
 
     async fn streams(
