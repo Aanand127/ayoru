@@ -1,6 +1,6 @@
-use ani::core::models::Title;
-use ani::tui::action::{Action, Effect};
-use ani::tui::state::{Panel, TuiState};
+use ayoru::core::models::Title;
+use ayoru::tui::action::{Action, Effect};
+use ayoru::tui::state::{Panel, TuiState};
 
 fn search_state_with_results() -> TuiState {
     TuiState {

@@ -1,4 +1,4 @@
-use ani::cli::picker::{Key, Picker, PickerEvent};
+use ayoru::cli::picker::{Key, Picker, PickerEvent};
 
 #[test]
 fn j_and_down_move_selection_forward() {

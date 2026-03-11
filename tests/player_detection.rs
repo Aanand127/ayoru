@@ -1,4 +1,4 @@
-use ani::player::detect::{DetectError, Player, choose_player_with};
+use ayoru::player::detect::{DetectError, Player, choose_player_with};
 
 #[test]
 fn chooses_mpv_then_iina_then_vlc() {

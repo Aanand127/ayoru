@@ -1,4 +1,4 @@
-use ani::tui::library::{LibraryState, SavedTitle, SavedWatch};
+use ayoru::tui::library::{LibraryState, SavedTitle, SavedWatch};
 
 fn saved_title(id: &str, name: &str) -> SavedTitle {
     SavedTitle {

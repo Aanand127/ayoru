@@ -1,5 +1,5 @@
-use ani::tui::library::{LibraryState, SavedTitle, SavedWatch};
-use ani::tui::storage::LibraryStorage;
+use ayoru::tui::library::{LibraryState, SavedTitle, SavedWatch};
+use ayoru::tui::storage::LibraryStorage;
 
 fn saved_watch(id: &str, name: &str, episode: u32) -> SavedWatch {
     SavedWatch {

@@ -1,5 +1,5 @@
-use ani::tui::action::{Action, Effect};
-use ani::tui::state::{Mode, TuiState};
+use ayoru::tui::action::{Action, Effect};
+use ayoru::tui::state::{Mode, TuiState};
 
 #[test]
 fn submit_search_sets_loading_state() {

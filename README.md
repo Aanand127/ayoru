@@ -1,4 +1,6 @@
-# ani (Rust MVP)
+# Ayoru
+
+`ayoru` is a quieter way to watch anime.
 
 Playback-first anime CLI MVP.
 
@@ -11,8 +13,8 @@ cargo run -- tui
 
 ## Implemented MVP behaviors
 
-- `ani <query>` command surface with `clap`
-- `ani tui` standalone search-first TUI entrypoint
+- `ayoru <query>` command surface with `clap`
+- `ayoru tui` standalone search-first TUI entrypoint
 - Layered modules (`cli`, `core`, `provider`, `player`, `app`)
 - Stream ranking policy: reliability (`wixmp`, `youtube`, `sharepoint`, `hianime`) -> sub preference -> resolution
 - Playback timeout/fallback engine: 6-second timeout, one attempt per provider

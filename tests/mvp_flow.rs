@@ -1,7 +1,7 @@
-use ani::app::{PickerRuntime, PlayerRuntime, ProviderRuntime, run_with};
-use ani::core::models::{Episode, StreamCandidate, Title};
-use ani::errors::AppError;
-use ani::player::detect::{DetectError, Player};
+use ayoru::app::{PickerRuntime, PlayerRuntime, ProviderRuntime, run_with};
+use ayoru::core::models::{Episode, StreamCandidate, Title};
+use ayoru::errors::AppError;
+use ayoru::player::detect::{DetectError, Player};
 
 struct NoResultsProvider;
 

@@ -1,6 +1,6 @@
-use ani::tui::action::Action;
-use ani::tui::runtime::{InputCommand, map_key_code_for_state};
-use ani::tui::state::{Mode, Panel, TuiState};
+use ayoru::tui::action::Action;
+use ayoru::tui::runtime::{InputCommand, map_key_code_for_state};
+use ayoru::tui::state::{Mode, Panel, TuiState};
 use crossterm::event::KeyCode;
 
 #[test]

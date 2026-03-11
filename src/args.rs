@@ -12,7 +12,7 @@ pub struct Args {
 }
 
 #[derive(Parser, Debug)]
-#[command(name = "ani", version, about = "Fast anime CLI")]
+#[command(name = "ayoru", version, about = "A quieter way to watch anime.")]
 struct RawArgs {
     #[arg()]
     rest: Vec<String>,
@@ -35,7 +35,7 @@ where
         }),
         [command, ..] if command == "tui" => Err(clap::Error::raw(
             clap::error::ErrorKind::TooManyValues,
-            "ani tui does not accept additional arguments",
+            "ayoru tui does not accept additional arguments",
         )),
         query => Ok(Args {
             command: Command::Play {

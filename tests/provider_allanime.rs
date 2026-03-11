@@ -1,4 +1,4 @@
-use ani::provider::allanime::{
+use ayoru::provider::allanime::{
     decode_source_url, parse_episodes, parse_provider_payload_links, parse_search_titles,
     parse_stream_candidates,
 };

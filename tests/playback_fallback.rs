@@ -1,5 +1,5 @@
-use ani::core::models::StreamCandidate;
-use ani::core::playback::{PlaybackError, attempt_with_fallback};
+use ayoru::core::models::StreamCandidate;
+use ayoru::core::playback::{PlaybackError, attempt_with_fallback};
 use std::time::Duration;
 
 #[tokio::test]

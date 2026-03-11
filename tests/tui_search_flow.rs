@@ -1,8 +1,8 @@
-use ani::app::{PlayerRuntime, ProviderRuntime};
-use ani::core::models::{Episode, StreamCandidate, Title};
-use ani::player::detect::{DetectError, Player};
-use ani::tui::action::Action;
-use ani::tui::controller::TuiController;
+use ayoru::app::{PlayerRuntime, ProviderRuntime};
+use ayoru::core::models::{Episode, StreamCandidate, Title};
+use ayoru::player::detect::{DetectError, Player};
+use ayoru::tui::action::Action;
+use ayoru::tui::controller::TuiController;
 
 struct SearchProvider {
     titles: Vec<Title>,

@@ -1,7 +1,7 @@
-use ani::core::models::Title;
-use ani::tui::library::{SavedTitle, SavedWatch};
-use ani::tui::state::{Panel, TuiState};
-use ani::tui::ui::render_to_buffer;
+use ayoru::core::models::Title;
+use ayoru::tui::library::{SavedTitle, SavedWatch};
+use ayoru::tui::state::{Panel, TuiState};
+use ayoru::tui::ui::render_to_buffer;
 
 fn buffer_contains(buffer: &ratatui::buffer::Buffer, needle: &str) -> bool {
     let content = buffer

@@ -1,5 +1,5 @@
-use ani::core::models::StreamCandidate;
-use ani::core::stream_ranker::rank_streams;
+use ayoru::core::models::StreamCandidate;
+use ayoru::core::stream_ranker::rank_streams;
 
 #[test]
 fn ranks_by_provider_reliability_first() {

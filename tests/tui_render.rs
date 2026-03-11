@@ -1,6 +1,6 @@
-use ani::core::models::Title;
-use ani::tui::state::{Mode, Panel, TuiState};
-use ani::tui::ui::render_to_buffer;
+use ayoru::core::models::Title;
+use ayoru::tui::state::{Mode, Panel, TuiState};
+use ayoru::tui::ui::render_to_buffer;
 use ratatui::style::Color;
 
 fn buffer_contains(buffer: &ratatui::buffer::Buffer, needle: &str) -> bool {

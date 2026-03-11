@@ -1,5 +1,5 @@
-use ani::player::detect::Player;
-use ani::player::launch::command_spec;
+use ayoru::player::detect::Player;
+use ayoru::player::launch::command_spec;
 
 #[test]
 fn mpv_command_includes_referrer_and_title() {

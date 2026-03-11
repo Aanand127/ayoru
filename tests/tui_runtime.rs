@@ -1,4 +1,4 @@
-use ani::tui::runtime::{RunDecision, RuntimeApp, TerminalSession, run_with_terminal};
+use ayoru::tui::runtime::{RunDecision, RuntimeApp, TerminalSession, run_with_terminal};
 
 #[derive(Default)]
 struct FakeTerminal {
@@ -34,7 +34,7 @@ struct QuitImmediately;
 
 #[async_trait::async_trait]
 impl RuntimeApp for QuitImmediately {
-    async fn step(&mut self) -> Result<RunDecision, ani::errors::AppError> {
+    async fn step(&mut self) -> Result<RunDecision, ayoru::errors::AppError> {
         Ok(RunDecision::Quit)
     }
 }
