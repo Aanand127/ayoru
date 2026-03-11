@@ -1,9 +1,32 @@
 use crate::core::models::{Episode, StreamCandidate, Title};
+use crate::app::ProviderRuntime;
 use serde_json::Value;
 
 pub const ALLANIME_REFERER: &str = "https://allmanga.to";
 pub const ALLANIME_BASE: &str = "allanime.day";
 pub const ALLANIME_API: &str = "https://api.allanime.day";
+
+pub struct AllAnimeProvider;
+
+#[async_trait::async_trait]
+impl ProviderRuntime for AllAnimeProvider {
+    async fn search(&self, _query: &str) -> Result<Vec<Title>, String> {
+        Err("live AllAnime HTTP integration is not yet wired".to_string())
+    }
+
+    async fn episodes(&self, _title_id: &str) -> Result<Vec<Episode>, String> {
+        Err("live AllAnime HTTP integration is not yet wired".to_string())
+    }
+
+    async fn streams(
+        &self,
+        _title_id: &str,
+        _episode: u32,
+        _prefer_sub: bool,
+    ) -> Result<Vec<StreamCandidate>, String> {
+        Err("live AllAnime HTTP integration is not yet wired".to_string())
+    }
+}
 
 pub fn parse_search_titles(raw: &str) -> Result<Vec<Title>, String> {
     let v: Value = serde_json::from_str(raw).map_err(|e| e.to_string())?;
