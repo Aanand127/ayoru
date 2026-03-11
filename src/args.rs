@@ -12,9 +12,15 @@ pub struct Args {
 }
 
 #[derive(Parser, Debug)]
-#[command(name = "ayoru", version, about = "A quieter way to watch anime.")]
+#[command(
+    name = "ayoru",
+    version,
+    about = "A quieter way to watch anime.",
+    override_usage = "ayoru <query>\n       ayoru tui",
+    after_help = "Examples:\n  ayoru frieren\n  ayoru tui"
+)]
 struct RawArgs {
-    #[arg()]
+    #[arg(value_name = "QUERY_OR_COMMAND")]
     rest: Vec<String>,
 }
 

@@ -4,11 +4,13 @@ use crate::provider::allanime::AllAnimeProvider;
 use crate::tui::action::Action;
 use crate::tui::controller::TuiController;
 use crate::tui::state::{Mode, Panel, TuiState};
+use crate::tui::storage::LibraryStorage;
 use crate::tui::ui;
 use crossterm::event::{self, Event, KeyCode};
 use ratatui::Terminal;
 use ratatui::backend::CrosstermBackend;
 use std::io::{IsTerminal, stdout};
+use std::path::PathBuf;
 
 pub trait TerminalSession {
     fn enable_raw_mode(&mut self) -> std::io::Result<()>;
@@ -80,7 +82,9 @@ pub async fn run() -> Result<(), AppError> {
 
     let backend = CrosstermBackend::new(stdout());
     let mut terminal = Terminal::new(backend).map_err(|e| AppError::Provider(e.to_string()))?;
-    let mut controller = TuiController::new(AllAnimeProvider::new(), SystemPlayerRuntime);
+    let storage = LibraryStorage::new(default_library_path());
+    let mut controller =
+        TuiController::with_storage(AllAnimeProvider::new(), SystemPlayerRuntime, storage).await?;
 
     let result = run_loop(&mut terminal, &mut controller).await;
 
@@ -197,4 +201,20 @@ fn submit_action(state: &TuiState) -> Option<Action> {
         Mode::Episodes => Some(Action::PlaySelectedEpisode),
         Mode::Launching => None,
     }
+}
+
+fn default_library_path() -> PathBuf {
+    if let Ok(state_home) = std::env::var("XDG_STATE_HOME") {
+        return PathBuf::from(state_home).join("ayoru").join("library.json");
+    }
+
+    if let Ok(home) = std::env::var("HOME") {
+        return PathBuf::from(home)
+            .join(".local")
+            .join("state")
+            .join("ayoru")
+            .join("library.json");
+    }
+
+    PathBuf::from(".ayoru").join("library.json")
 }
