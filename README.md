@@ -1,23 +1,21 @@
 # Ayoru
 
-`ayoru` is a quieter way to watch anime.
+`ayoru` is a terminal-first anime watcher with a direct CLI flow and a keyboard-driven TUI.
 
-Ayoru is a Rust CLI and terminal UI for searching anime, picking episodes, and launching playback with a cleaner, calmer flow than the usual script-and-site experience.
+It lets you search a show, pick an episode, resolve a stream, and open playback in a local player without bouncing between browser tabs and ad-heavy sites.
 
-## What It Does
+## Why Use It
 
-- `ayoru <query>` runs the direct CLI flow
-- `ayoru tui` opens the dashboard-style TUI shell
-- searches AllAnime
-- lets you choose titles and episodes
-- ranks streams with a deterministic provider preference
-- detects a local player and launches playback
-- stores local TUI data for:
-  - favorites
-  - recently watched
-  - history
+- bare `ayoru` opens the full-screen TUI
+- fast CLI flow for `ayoru "<show>"`
+- full-screen TUI with search, favorites, history, and recently watched
+- automatic stream ranking and playback fallback
+- local player launch with `mpv`, `iina`, or `vlc`
+- local-only saved state for the TUI
 
 ## Requirements
+
+Before installing, make sure you have:
 
 - Rust stable toolchain
 - one supported player installed:
@@ -27,28 +25,20 @@ Ayoru is a Rust CLI and terminal UI for searching anime, picking episodes, and l
 
 ## Install
 
-### Run from source
-
-```bash
-git clone <your-remote-url>
-cd ayoru
-cargo run -- "frieren"
-```
-
 ### One-command install
 
 ```bash
 curl -fsSL https://raw.githubusercontent.com/BrandonLee28/ayoru/main/scripts/install.sh | sh
 ```
 
-This installer:
+What this does:
 
 - installs `ayoru` to `~/.local/bin/ayoru`
-- prefers a GitHub release artifact when one exists
-- falls back to a source build when a release artifact is unavailable
-- updates your shell `PATH` if `~/.local/bin` is missing
+- uses a GitHub release artifact when available
+- falls back to a source build if a release artifact is missing
+- adds `~/.local/bin` to your shell `PATH` if needed
 
-Verify:
+Verify the install:
 
 ```bash
 command -v ayoru
@@ -58,10 +48,14 @@ ayoru --version
 ### Install from source with Cargo
 
 ```bash
+git clone https://github.com/BrandonLee28/ayoru.git
+cd ayoru
 cargo install --path .
 ```
 
-Cargo installs the binary to `~/.cargo/bin/ayoru`. If `ayoru` is not found in a new terminal, add Cargo's bin directory to your shell `PATH`.
+Cargo installs the binary to `~/.cargo/bin/ayoru`.
+
+If `ayoru` is not found in a new terminal, add Cargo's bin directory to your `PATH`.
 
 For `zsh` on macOS:
 
@@ -70,41 +64,37 @@ echo 'export PATH="$HOME/.cargo/bin:$PATH"' >> ~/.zprofile
 source ~/.zprofile
 ```
 
-Then use:
-
-```bash
-ayoru "frieren"
-ayoru tui
-```
-
 ## Quick Start
 
-### CLI flow
+### Watch from the CLI
 
 ```bash
 ayoru "frieren"
 ```
 
-This:
+This flow:
+
 1. searches for the title
-2. lets you choose a result
-3. lets you choose an episode
+2. lets you pick a result
+3. lets you pick an episode
 4. resolves streams
 5. opens playback in your local player
 
-### TUI shell
+### Open the TUI
 
 ```bash
-ayoru tui
+ayoru
 ```
 
-The TUI gives you:
-- a persistent shell layout
+The TUI includes:
+
 - search
 - favorites
 - recently watched
 - history
 - keyboard-first navigation
+
+`ayoru tui` also works if you prefer the explicit subcommand.
 
 ## TUI Controls
 
@@ -113,10 +103,40 @@ The TUI gives you:
 - `Tab` move between shell panels
 - `h` / `l` move panel focus when search is not focused
 - `j` / `k` or arrow keys move inside the active panel
-- `Enter` confirm/select in the active main flow
+- `Enter` confirm or select in the active flow
 - `f` toggle favorite when search is not focused
-- `Esc` back out of detail/playback states
+- `Esc` back out of detail or playback states
 - `q` quit
+
+## Troubleshooting
+
+### `ayoru: command not found`
+
+The install likely succeeded, but your shell has not picked up the bin directory yet.
+
+If you used the one-command installer, open a new terminal or reload your shell profile:
+
+```bash
+source ~/.zprofile
+```
+
+Then check again:
+
+```bash
+command -v ayoru
+```
+
+### The installer falls back to building from source
+
+That is expected when a matching release artifact is unavailable for your platform. In that case the installer uses `cargo build --release`, so Rust and Cargo must be installed.
+
+### Playback does not start
+
+Make sure at least one supported player is installed:
+
+- `mpv`
+- `iina`
+- `vlc`
 
 ## Local Data
 
@@ -125,37 +145,24 @@ The TUI stores local state at:
 - `$XDG_STATE_HOME/ayoru/library.json`, or
 - `~/.local/state/ayoru/library.json`
 
-This file contains favorites, recently watched, and history in a simple JSON format.
+This file stores favorites, recently watched, and history in JSON.
 
 ## Current Scope
 
 Ayoru currently focuses on:
-- terminal-first playback flow
-- local-only saved state
+
+- terminal-first playback
 - one provider integration
 - local player launch
+- local-only saved state
 
-It does not include:
-- sync
+It does not currently include:
+
 - accounts
+- sync
 - recommendations
 - collections
-- a native desktop app yet
-
-## Repo Layout
-
-```text
-src/
-  app.rs          app orchestration and runtime traits
-  args.rs         command parsing
-  cli/            legacy prompt-style picker flow
-  core/           models, playback policy, stream ranking
-  player/         player detection and launch
-  provider/       provider integrations
-  tui/            dashboard shell, renderer, runtime, persistence
-tests/            integration and behavior tests
-docs/             design and implementation docs
-```
+- a native desktop app
 
 ## Development
 
@@ -168,9 +175,24 @@ cargo fmt --all -- --check
 cargo clippy --all-targets -- -D warnings
 ```
 
+## Repo Layout
+
+```text
+src/
+  app.rs          app orchestration and runtime traits
+  args.rs         command parsing
+  cli/            prompt-style picker flow
+  core/           models, playback policy, stream ranking
+  player/         player detection and launch
+  provider/       provider integrations
+  tui/            TUI shell, renderer, runtime, persistence
+tests/            integration and behavior tests
+docs/             design and implementation docs
+```
+
 ## Release Asset Naming
 
-The installer expects release artifacts to use this naming:
+The installer expects release artifacts to use these names:
 
 - `ayoru-darwin-aarch64.tar.gz`
 - `ayoru-darwin-x86_64.tar.gz`
@@ -179,17 +201,17 @@ The installer expects release artifacts to use this naming:
 
 ## Maintainer Release Flow
 
-Push a version tag to publish the release assets automatically:
+Push a version tag to publish release assets:
 
 ```bash
 git tag v0.1.0
 git push origin v0.1.0
 ```
 
-The GitHub Actions release workflow builds the four installer tarballs and attaches them to the matching GitHub Release.
+The GitHub Actions workflow builds the four installer tarballs and attaches them to the matching GitHub Release.
 
 ## Notes
 
-- The TUI shell and the direct CLI share the same provider/playback stack.
-- Favorites, history, and recently watched are local-only by design right now.
-- The repo includes design and implementation docs under `docs/plans/` for the TUI, branding, and shell work.
+- The CLI and TUI share the same provider and playback stack.
+- Favorites, history, and recently watched are local-only by design.
+- Design and implementation notes live under `docs/plans/`.

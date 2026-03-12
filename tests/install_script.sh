@@ -68,4 +68,68 @@ assert_eq "$(repo_clone_url)" "https://github.com/BrandonLee28/ayoru.git"
 rm -rf "$local_repo"
 rm -rf "$worktree_repo"
 
+stdin_bin_dir=$(mktemp -d)
+stdin_home=$(mktemp -d)
+stdin_install_dir=$(mktemp -d)
+
+cat > "$stdin_bin_dir/curl" <<'EOF'
+#!/bin/sh
+
+out=
+while [ "$#" -gt 0 ]; do
+    case "$1" in
+        -o)
+            shift
+            out=$1
+            ;;
+    esac
+    shift
+done
+
+: > "$out"
+EOF
+chmod 755 "$stdin_bin_dir/curl"
+
+cat > "$stdin_bin_dir/tar" <<'EOF'
+#!/bin/sh
+
+dest=
+while [ "$#" -gt 0 ]; do
+    case "$1" in
+        -C)
+            shift
+            dest=$1
+            ;;
+    esac
+    shift
+done
+
+cat > "$dest/ayoru" <<'EOINSTALL'
+#!/bin/sh
+printf 'ayoru 0.1.0\n'
+EOINSTALL
+chmod 755 "$dest/ayoru"
+EOF
+chmod 755 "$stdin_bin_dir/tar"
+
+stdin_output=$(
+    env \
+        PATH="$stdin_bin_dir:$PATH" \
+        HOME="$stdin_home" \
+        AYORU_INSTALL_DIR="$stdin_install_dir" \
+        sh < "$REPO_ROOT/scripts/install.sh"
+)
+
+case "$stdin_output" in
+    *"Installed ayoru to $stdin_install_dir/ayoru"*)
+        ;;
+    *)
+        printf 'expected stdin install success output, got: %s\n' "$stdin_output" >&2
+        exit 1
+        ;;
+esac
+
+test -x "$stdin_install_dir/ayoru"
+assert_eq "$("$stdin_install_dir/ayoru")" "ayoru 0.1.0"
+
 printf 'install helper tests passed\n'

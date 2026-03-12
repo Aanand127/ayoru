@@ -16,8 +16,8 @@ pub struct Args {
     name = "ayoru",
     version,
     about = "A quieter way to watch anime.",
-    override_usage = "ayoru <query>\n       ayoru tui",
-    after_help = "Examples:\n  ayoru frieren\n  ayoru tui"
+    override_usage = "ayoru\n       ayoru <query>\n       ayoru tui",
+    after_help = "Examples:\n  ayoru\n  ayoru frieren\n  ayoru tui"
 )]
 struct RawArgs {
     #[arg(value_name = "QUERY_OR_COMMAND")]
@@ -32,10 +32,9 @@ where
     let raw = RawArgs::try_parse_from(itr)?;
 
     match raw.rest.as_slice() {
-        [] => Err(clap::Error::raw(
-            clap::error::ErrorKind::MissingRequiredArgument,
-            "query is required",
-        )),
+        [] => Ok(Args {
+            command: Command::Tui,
+        }),
         [command] if command == "tui" => Ok(Args {
             command: Command::Tui,
         }),

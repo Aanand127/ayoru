@@ -315,6 +315,6 @@ main() {
     print_success "$install_dir"
 }
 
-if [ "${0##*/}" = "install.sh" ]; then
+if ! (return 0 2>/dev/null); then
     main "$@"
 fi

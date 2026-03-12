@@ -1,7 +1,7 @@
 #[test]
-fn rejects_missing_query() {
-    let err = ayoru::args::parse_from(["ayoru"]);
-    assert!(err.is_err());
+fn parses_bare_command_as_tui() {
+    let args = ayoru::args::parse_from(["ayoru"]).unwrap();
+    assert!(matches!(args.command, ayoru::args::Command::Tui));
 }
 
 #[test]
